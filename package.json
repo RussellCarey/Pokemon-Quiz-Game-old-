@@ -6,7 +6,7 @@
   "scripts": {
     "watch:sass": "node-sass public/game-files/sass/main.scss public/game-files/css/style.css -w",
     "devserver": "live-server",
-    "start": "npm-run-all --parallel devserver watch:sass",
+    "start": "node server",
     "compile:sass": "node-sass public/game-files/sass/main.scss public/game-files/css/style.comp.css",
     "concat:css": "concat -o public/game-files/css/style.concat.css public/game-files/css/icon-font.css public/game-files/css/style.comp.css",
     "prefix:css": "postcss --use autoprefixer -b 'last 10 versions' public/game-files/css/style.comp.css -o public/game-files/css/style.prefix.css",
