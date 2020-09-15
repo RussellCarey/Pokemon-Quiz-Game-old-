@@ -1,0 +1,178 @@
+// Loading screen to show on loading
+.loadingScreen {
+  z-index: 10000;
+  position: absolute;
+  top: 0;
+  left: 0;
+  background-color: rgb(17, 17, 17);
+  height: 100vh;
+  width: 100vw;
+  // Flex
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  &__spinner {
+    width: 17vw;
+  }
+  &__text {
+  }
+}
+
+.menuBackground {
+  z-index: 300;
+  width: 100%;
+  height: 100%;
+  position: absolute;
+  top: 0;
+  left: 0;
+  transition: all 1s ease-in-out;
+
+  &__bg {
+    width: 100%;
+    height: 100%;
+  }
+}
+
+// The main title screen with press start or touch to enter
+.titleScreen {
+  filter: brightness(0);
+  z-index: 500;
+  position: absolute;
+  top: 0;
+  left: 0;
+  height: 100vh;
+  width: 100vw;
+  transition: filter 5s;
+  // Flex
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  &__logo {
+    position: absolute;
+    width: 40vw;
+    &__animation {
+      animation-name: logoSmallBig;
+      animation-duration: 2s;
+      animation-iteration-count: infinite;
+    }
+  }
+}
+
+.modeSelect {
+  z-index: 900;
+  position: absolute;
+  top: 0;
+  left: 0;
+  height: 100vh;
+  width: 100vw;
+  transform: translateY(-2000px);
+  // Flex
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  &__choice1 {
+    width: 20vw;
+    height: 30vw;
+    margin-right: 10vw;
+    background-color: yellow;
+    &:hover {
+      transform: scale(1.05);
+      cursor: pointer;
+    }
+  }
+  &__choice2 {
+    width: 20vw;
+    height: 30vw;
+    background-color: blue;
+    &:hover {
+      transform: scale(1.05);
+      cursor: pointer;
+    }
+  }
+}
+
+.rangeSelect {
+  z-index: 1200;
+  position: absolute;
+  height: 100vh;
+  width: 100vw;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  transform: translateY(-2000px);
+  transition: all 1s ease-in-out;
+  &__form {
+    background-color: white;
+  }
+
+  &__input {
+    background-color: orange;
+  }
+}
+
+.finalScore {
+  z-index: 5000;
+  position: absolute;
+  top: 0;
+  left: 0;
+  height: 100vh;
+  width: 100vw;
+  transform: translateY(-2000px);
+  transition: all 2s ease-in-out;
+  // Flex
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  &__info {
+    width: 50%;
+    height: 80%;
+    background-color: white;
+    border-radius: 20px;
+  }
+}
+
+.leaderboard {
+  z-index: 5000;
+  position: absolute;
+  top: 0;
+  left: 0;
+  height: 100vh;
+  width: 100vw;
+  transform: translateY(-2000px);
+  transition: all 2s ease-in-out;
+  // Flex
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  &__info {
+    width: 50%;
+    height: 50%;
+    background-color: white;
+    border-radius: 20px;
+  }
+}
+
+.speaker {
+  opacity: 0.5;
+  position: absolute;
+  width: 3vw;
+  z-index: 2000;
+  left: 1.3vw;
+  top: 1vh;
+}
+.speaker:hover {
+  filter: brightness(80%);
+  cursor: pointer;
+}
+
+@keyframes logoSmallBig {
+  0% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.02);
+  }
+  100% {
+    transform: scale(1);
+  }
+}

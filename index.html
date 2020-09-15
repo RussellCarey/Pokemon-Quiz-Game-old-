@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="./game-files/css/style.css" />
+    <title>Whos that pokemon?</title>
+  </head>
+  <body>
+    <div class="container">
+      <!------------------------------------>
+      <div class="loadingScreen" id="loadingScreen">
+        <image
+          class="loadingScreen__spinner"
+          src="./game-files/images/pikachugif.gif"
+          id="spinner"
+        ></image>
+        <p class="loadingScreen__loadingText"></p>
+      </div>
+      <!------------------------------------>
+      <div class="menuBackground" id="menubackground">
+        <img
+          class="menuBackground__bg"
+          src="./game-files/images/title/titleBG.png"
+          alt=""
+        />
+      </div>
+      <!------------------------------------>
+      <div class="titleScreen" id="titleScreen">
+        <img
+          class="titleScreen__logo titleScreen__logo__animation"
+          src="./game-files/images/title/titlelogo.png"
+          alt=""
+          id="titlelogo"
+        />
+        <!-- Text and animated screen?-->
+      </div>
+      <!------------------------------------>
+      <div class="modeSelect" id="modeSelect">
+        <div class="modeSelect__choice1" id="choice1">HM</div>
+        <div class="modeSelect__choice2" id="choice2">MC</div>
+      </div>
+      <!---------------------------------->
+      <div class="rangeSelect" id="rangeSelect">
+        <p class="rangeSelect__info">Choose and pokemon number start and end</p>
+        <form class="rangeSelect__form" action="">
+          <input class="rangeSelect__input" type="text" id="rangefrom" />
+          <input class="rangeSelect__input" type="text" id="rangeto" />
+        </form>
+        <button id="rangeStart">START</button>
+      </div>
+      <!-- FINAL SCORE ---------------------------------->
+      <div class="finalScore" id="finalScore">
+        <div class="finalScore__info">
+          <p id="finalscore-score">1000</p>
+          <form action="">
+            <input type="text" id="playername" />
+          </form>
+          <button id="playersubmit">Submit Score</button>
+        </div>
+      </div>
+      <!-- LEADERBOARD ---------------------------------->
+      <div class="leaderboard" id="leaderboard">
+        <div class="leaderboard__info"></div>
+        <button id="leaderboardnext">Next</button>
+      </div>
+      <!------------------------------------>
+      <div class="gameScreen" id="gameScreen">
+        <!-- WHOS THAT VIDEO ---------------------------------->
+        <video class="gameScreen__video" id="video" autoplay>
+          <source src="./game-files/video/whosthat.mp4" type="video/mp4" />
+          Your browser does not support the video tag.
+        </video>
+
+        <audio id="musicAudio">
+          <source src="" type="audio/mpeg" />
+          Your browser does not support the audio element.
+        </audio>
+        <audio id="soundAudio">
+          <source src="" type="audio/mpeg" />
+          Your browser does not support the audio element.
+        </audio>
+
+        <!-- POKEMON IMAGES AND MAIN GAME GRAPHICS-->
+        <img src="" alt="" class="pokemon__shadow" id="pokemonshadow" />
+        <img src="" alt="" class="pokemon" id="pokemon" />
+        <img
+          src="./game-files/images/logofuzzy.png"
+          alt=""
+          class="logo"
+          id="logo"
+        />
+        <img
+          src="./game-files/images/logofuzzy.png"
+          alt=""
+          class="logo__shadow"
+          id="logo-shadow"
+        />
+        <img
+          src="./game-files/images/questionmark.png"
+          alt=""
+          class="logo__mark"
+          id="questionmark"
+        />
+        <img
+          src="./game-files/images/questionmark.png"
+          alt=""
+          class="logo__mark__shadow"
+          id="questionmark-shadow"
+        />
+        <img
+          src="./game-files/images/speaker.png"
+          alt=""
+          class="speaker"
+          id="speaker"
+        />
+
+        <!--<div class="choices-div">
+            <div id="awnserDiv1" class="awnserDiv__1 awnserDiv">
+              <p class="pokemonName" id="pokemonName1">Choice 1</p>
+            </div>
+            <div id="awnserDiv2" class="awnserDiv__2 awnserDiv">
+              <p class="pokemonName" id="pokemonName2">Choice 2</p>
+            </div>
+            <div id="awnserDiv3" class="awnserDiv__3 awnserDiv">
+              <p class="pokemonName" id="pokemonName3">Choice 3</p>
+            </div>
+            <div id="awnserDiv4" class="awnserDiv__4 awnserDiv">
+              <p class="pokemonName" id="pokemonName4">Choice 4</p>
+            </div>
+            <div id="awnserDiv5" class="awnserDiv__5 awnserDiv">
+              <p class="pokemonName" id="pokemonName5">Choice 5</p>
+            </div>
+            <div id="awnserDiv6" class="awnserDiv__6 awnserDiv">
+              <p class="pokemonName" id="pokemonName6">Choice 6</p>
+            </div>
+          </div>-->
+
+        <div class="letter-container" id="letter-container"></div>
+      </div>
+    </div>
+  </body>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.5.1/gsap.min.js"></script>
+  <script type="module" src="./game-files/elements.js"></script>
+  <script type="module" src="./game-files/menu.js"></script>
+
+</html>

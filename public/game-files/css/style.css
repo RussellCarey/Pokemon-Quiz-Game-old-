@@ -1,0 +1,314 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-size: 62.5%;
+  font-family: "Inter", sans-serif;
+  overflow: hidden;
+}
+
+.container {
+  position: relative;
+  height: 100vh;
+  width: 100vw;
+  background-color: #0f0f0f;
+}
+
+#speaker {
+  z-index: 10000;
+  position: absolute;
+  width: 30px;
+  top: 1vw;
+  left: 2vw;
+}
+
+.letterbox-show {
+  transform: translateY(0);
+}
+
+.loadingScreen {
+  z-index: 10000;
+  position: absolute;
+  top: 0;
+  left: 0;
+  background-color: #111111;
+  height: 100vh;
+  width: 100vw;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.loadingScreen__spinner {
+  width: 17vw;
+}
+
+.menuBackground {
+  z-index: 300;
+  width: 100%;
+  height: 100%;
+  position: absolute;
+  top: 0;
+  left: 0;
+  transition: all 1s ease-in-out;
+}
+.menuBackground__bg {
+  width: 100%;
+  height: 100%;
+}
+
+.titleScreen {
+  filter: brightness(0);
+  z-index: 500;
+  position: absolute;
+  top: 0;
+  left: 0;
+  height: 100vh;
+  width: 100vw;
+  transition: filter 5s;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.titleScreen__logo {
+  position: absolute;
+  width: 40vw;
+}
+.titleScreen__logo__animation {
+  animation-name: logoSmallBig;
+  animation-duration: 2s;
+  animation-iteration-count: infinite;
+}
+
+.modeSelect {
+  z-index: 900;
+  position: absolute;
+  top: 0;
+  left: 0;
+  height: 100vh;
+  width: 100vw;
+  transform: translateY(-2000px);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.modeSelect__choice1 {
+  width: 20vw;
+  height: 30vw;
+  margin-right: 10vw;
+  background-color: yellow;
+}
+.modeSelect__choice1:hover {
+  transform: scale(1.05);
+  cursor: pointer;
+}
+.modeSelect__choice2 {
+  width: 20vw;
+  height: 30vw;
+  background-color: blue;
+}
+.modeSelect__choice2:hover {
+  transform: scale(1.05);
+  cursor: pointer;
+}
+
+.rangeSelect {
+  z-index: 1200;
+  position: absolute;
+  height: 100vh;
+  width: 100vw;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  transform: translateY(-2000px);
+  transition: all 1s ease-in-out;
+}
+.rangeSelect__form {
+  background-color: white;
+}
+.rangeSelect__input {
+  background-color: orange;
+}
+
+.finalScore {
+  z-index: 5000;
+  position: absolute;
+  top: 0;
+  left: 0;
+  height: 100vh;
+  width: 100vw;
+  transform: translateY(-2000px);
+  transition: all 2s ease-in-out;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.finalScore__info {
+  width: 50%;
+  height: 80%;
+  background-color: white;
+  border-radius: 20px;
+}
+
+.leaderboard {
+  z-index: 5000;
+  position: absolute;
+  top: 0;
+  left: 0;
+  height: 100vh;
+  width: 100vw;
+  transform: translateY(-2000px);
+  transition: all 2s ease-in-out;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.leaderboard__info {
+  width: 50%;
+  height: 50%;
+  background-color: white;
+  border-radius: 20px;
+}
+
+.speaker {
+  opacity: 0.5;
+  position: absolute;
+  width: 3vw;
+  z-index: 2000;
+  left: 1.3vw;
+  top: 1vh;
+}
+
+.speaker:hover {
+  filter: brightness(80%);
+  cursor: pointer;
+}
+
+@keyframes logoSmallBig {
+  0% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.02);
+  }
+  100% {
+    transform: scale(1);
+  }
+}
+
+.gameScreen {
+  position: relative;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  overflow: hidden;
+}
+.gameScreen__video {
+  position: relative;
+  width: 100%;
+}
+
+.pokemon {
+  opacity: 1;
+  position: absolute;
+  width: 30vw;
+  z-index: 100;
+  left: 12vw;
+  top: 11vh;
+  filter: contrast(0) sepia(100%) hue-rotate(185deg) saturate(700%)
+    brightness(60%);
+}
+.pokemon__shadow {
+  position: absolute;
+  width: 30vw;
+  z-index: 90;
+  left: 11vw;
+  top: 12vh;
+  opacity: 0.6;
+  filter: contrast(0) sepia(100%) hue-rotate(185deg) saturate(700%)
+    brightness(60%);
+  transition: all 0.7;
+}
+
+.pokemon__show {
+  transform: scale(100%);
+  filter: none;
+  transition: none;
+}
+
+.logo {
+  position: absolute;
+  width: 45vw;
+  z-index: 50;
+  right: 4vw;
+  bottom: 6vw;
+}
+.logo__shadow {
+  position: absolute;
+  width: 45vw;
+  z-index: 44;
+  right: 5vw;
+  bottom: 5vw;
+  filter: brightness(0%);
+  opacity: 0.4;
+}
+
+.logo__mark {
+  position: absolute;
+  width: 13vw;
+  z-index: 50;
+  right: 16vw;
+  top: 6vw;
+}
+.logo__mark__shadow {
+  width: 13vw;
+  z-index: 44;
+  position: absolute;
+  right: 17vw;
+  top: 6vw;
+  filter: brightness(0%);
+  opacity: 0.4;
+}
+
+.letter-container {
+  position: absolute;
+  width: 100vw;
+  z-index: 4000;
+  padding-top: 0.1rem;
+  bottom: 15px;
+  padding: 10px;
+  transform: translateY(500px);
+  background-color: rgba(0, 0, 0, 0.2);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  transition: all 1s;
+}
+.letter-container__letter {
+  width: 4vw;
+  height: 4vw;
+  opacity: 0;
+}
+
+#mobile-press {
+  display: none;
+  z-index: 99999;
+  position: absolute;
+  top: 0;
+  left: 0;
+  background-color: transparent;
+  color: transparent;
+  font-size: 100px;
+  outline: none;
+  border: none;
+  width: 100vw;
+  height: 100vh;
+}
+
+#scoreField {
+  position: absolute;
+  top: -1000px;
+}

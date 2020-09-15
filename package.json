@@ -1,0 +1,33 @@
+{
+  "name": "Project",
+  "version": "1.0.0",
+  "description": "pokemonFinal",
+  "main": "index.js",
+  "scripts": {
+    "watch:sass": "node-sass public/game-files/sass/main.scss public/game-files/css/style.css -w",
+    "devserver": "live-server",
+    "start": "npm-run-all --parallel devserver watch:sass",
+    "compile:sass": "node-sass public/game-files/sass/main.scss public/game-files/css/style.comp.css",
+    "concat:css": "concat -o public/game-files/css/style.concat.css public/game-files/css/icon-font.css public/game-files/css/style.comp.css",
+    "prefix:css": "postcss --use autoprefixer -b 'last 10 versions' public/game-files/css/style.comp.css -o public/game-files/css/style.prefix.css",
+    "compress:css": "node-sass public/game-files/css/style.prefix.css public/game-files/css/style.css --output-style compressed",
+    "build:css": "npm-run-all compile:sass prefix:css compress:css"
+  },
+  "author": "Russell",
+  "license": "ISC",
+  "devDependencies": {
+    "autoprefixer": "^7.1.4",
+    "concat": "^1.0.3",
+    "node-sass": "^4.5.3",
+    "npm-run-all": "^4.1.1",
+    "postcss-cli": "^4.1.1"
+  },
+  "dependencies": {
+    "body-parser": "^1.19.0",
+    "dotenv": "^8.2.0",
+    "express": "^4.17.1",
+    "mongoose": "^5.10.5",
+    "morgan": "^1.10.0",
+    "simple-keyboard": "^2.30.5"
+  }
+}

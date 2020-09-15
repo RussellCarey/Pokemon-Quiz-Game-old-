@@ -1,0 +1,188 @@
+let usedLetters = [];
+let firstRoundOver = false;
+let pokemonNameLetterCount = 0;
+let letterImage = [];
+let globalScore = 0;
+let livesLeft = 5;
+export let roundNumber = 1;
+
+export function setUpHangman() {
+  // hideMulti();
+  opaqueLetters();
+  showLetterBox();
+  addPokemonName();
+  doms.mainDoms.audio.src = "./sound/whosthatpokemon.wav";
+  setUpKeys();
+  pokemonNameLetterCount = 0;
+  usedLetters = [];
+}
+
+function opaqueLetters() {
+  const allLetters = document.querySelectorAll(".awnserDiv");
+  allLetters.forEach((e) => {
+    e.style.display = "none";
+  });
+}
+
+function showLetterBox() {
+  // Show letter container box up
+  setTimeout(() => {
+    console.log(doms.typingDoms.letterbox);
+    doms.typingDoms.letterbox.style.transform = "translateY(0)";
+  }, 600);
+}
+
+function addPokemonName() {
+  for (var i = 0; i < main.currentPokemonName.length; i++) {
+    let currentLetter = main.currentPokemonName.charAt(i);
+    letterImage = `./game-files/images/font/${currentLetter}.PNG`;
+    const newLetter = document.createElement("img"); // Each name is a div
+    newLetter.classList.add("letter-container__letter");
+    newLetter.src = letterImage;
+    doms.typingDoms.letterbox.appendChild(newLetter); // Add a new child to a parent
+    console.log("added letter to letter box");
+  }
+}
+
+function guessedPokemon() {
+  if (pokemonNameLetterCount === main.currentPokemonName.length) {
+    // CORRECT POKEMON HANGMAN REPLACEMENT FUNCTION
+    doms.typingDoms.letterbox.style.transform = "translateY(500px)";
+    doms.typingDoms.letterbox.innerHTML = "";
+    doms.mainDoms.audio.src = `./game-files/its-pokemon/${main.pokemonNumberString}.wav`; /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+    doms.mainDoms.audio.play();
+    globalScore += livesLeft * 1000;
+    livesLeft = 5;
+    doms.mainDoms.pokemon.classList.add("pokemon__show");
+    doms.mainDoms.pokemon.style.opacity = "1";
+
+    roundNumber++;
+    firstRoundOver = true;
+
+    setTimeout(() => {
+      doms.typingDoms.letterbox.classList.remove("letterbox-show");
+      doms.mainDoms.pokemon.classList.remove("pokemon__show");
+      doms.mainDoms.pokemonShadow.classList.remove("pokemon__show");
+      doms.mainDoms.pokemon.style.opacity = "0";
+      doms.mainDoms.pokemonShadow.style.opacity = "0";
+
+      // New round
+      letterImage = [];
+      doms.mainDoms.video.currentTime = 0;
+
+      setTimeout(() => {
+        main.startNewRound();
+      }, 1500);
+    }, 4200);
+    // END OF CORRECT POKEMON HANGMAN
+    pokemonNameLetterCount = 0;
+    usedLetters = [];
+  }
+}
+
+function setUpKeys() {
+  //document.getElementById("focus").focus();
+  // Test of the button has been pressed and it corrospons with the pokemon name
+  // selected
+  document.addEventListener("keydown", (e) => {
+    const availableKeys = [
+      "a",
+      "b",
+      "c",
+      "d",
+      "e",
+      "f",
+      "g",
+      "h",
+      "i",
+      "j",
+      "k",
+      "l",
+      "m",
+      "n",
+      "o",
+      "p",
+      "q",
+      "r",
+      "s",
+      "t",
+      "u",
+      "v",
+      "w",
+      "x",
+      "y",
+      "z",
+      " ",
+      "-",
+    ];
+
+    if (e.key !== "ArrowLeft" && availableKeys.indexOf(e.key) != -1) {
+      const str = main.currentPokemonName;
+      for (var i = 0; i < str.length; i++) {
+        if (str[i] === e.key) {
+          if (str.includes(e.key.toString()) && !usedLetters.includes(e.key)) {
+            doms.typingDoms.letterbox.childNodes[i].style.opacity = "1";
+            pokemonNameLetterCount++;
+          }
+        }
+        if (!str.includes(e.key.toString()) && !usedLetters.includes(e.key)) {
+          livesLeft--;
+          usedLetters.push(e.key);
+          console.log("lives remaining: " + livesLeft);
+          if (livesLeft == 0) {
+            outOfLives();
+          }
+        }
+      }
+      usedLetters.push(e.key);
+    }
+
+    // If all letters have been used
+    guessedPokemon();
+  });
+}
+
+function outOfLives() {
+  recordScore();
+  doms.mainDoms.menuBG.style.transform = "translate(0)";
+  doms.typingDoms.letterbox.style.transform = "translateY(500px)";
+
+  const letters = document.querySelectorAll(".letter-container__letter");
+  const lettersLength = letters.length;
+
+  for (let i = 0; i < lettersLength; i++) {
+    doms.typingDoms.letterbox.innerHTML = "";
+  }
+
+  doms.mainDoms.finalScore.style.transform = "translate(0px)";
+  doms.mainDoms.submitName.addEventListener("click", () => {
+    //
+    doms.mainDoms.finalScore.style.transform = "translate(2000px)";
+    doms.mainDoms.leaderboard.style.transform = "translate(0px)";
+    //
+    doms.mainDoms.leaderboardNext.addEventListener("click", () => {
+      gsap.to(doms.mainDoms.leaderboard, { y: "2000px", duration: 1 });
+      gsap.to(doms.mainDoms.modeSelect, { delay: 2, y: "0", duration: 1 });
+      newGame();
+    });
+  });
+  // Fade out
+  // Scroll down screen with score on it and a way to enter name
+  // If all is okay scroll out and show leaderboatd with their name on it
+  // ON CLICK next button go back to mode select
+}
+
+function recordScore() {
+  if (livesLeft < 0) {
+    livesLeft = 0;
+  }
+  doms.mainDoms.finalScoreText.innerHTML = globalScore.toString();
+  globalScore = 0;
+}
+
+function newGame() {
+  globalScore = 0;
+  livesLeft = 5;
+  roundNumber = 1;
+  main.loadPokemonData();
+}
