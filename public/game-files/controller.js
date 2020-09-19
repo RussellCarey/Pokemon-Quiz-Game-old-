@@ -466,7 +466,7 @@ function createLeaderboard() {
     //
     document.getElementById("leaderboardnext").addEventListener("click", () => {
       gsap.to(doms.mainDoms.finalScore, { x: "-200vw", duration: 1 });
-      gsap.to(doms.mainDoms.rangeSelect, { delay: 2, y: "0px", duration: 1 });
+      gsap.to(doms.mainDoms.namescreen, { delay: 2, y: "0px", duration: 1 });
     });
   });
 }
