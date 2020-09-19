@@ -5,6 +5,7 @@ const score = new mongoose.Schema({
     type: String,
     required: [true, "A tour must have a name"],
     trim: true,
+    unique: true,
     // Validators
     maxlength: [10, "A tour name must have less that 40 characters"],
     minlength: [1, "A tour name must have more than 10 aharacters"],
@@ -13,6 +14,9 @@ const score = new mongoose.Schema({
   score: {
     type: Number,
     required: [true, "Need a score"],
+  },
+  pos: {
+    type: Number,
   },
 });
 

@@ -28,6 +28,8 @@ export const mainDoms = {
   leaderboard: document.getElementById("leaderboard"),
   leaderboardNext: document.getElementById("leaderboardnext"),
   mobileForm: document.getElementById("mobile-press"),
+  namescreen: document.getElementById("enternamescreen"),
+  namescreenbutton: document.getElementById("gotorange"),
 };
 
 export const typingDoms = {

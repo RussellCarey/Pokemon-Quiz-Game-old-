@@ -34,15 +34,23 @@
           id="titlelogo"
         />
         <!-- Text and animated screen?-->
-      </div>
+         <!------------------------------------>
+         <div class="entername" id="enternamescreen">
+          <img src="./game-files/images/title/titlelogo.png" alt="" class="entername__logo">
+          <div class="entername__box">
+            <p><b>Welcome</b><br><br></p>
+            <p>Please input the name you wish to use on the leaderboard.<br><br>
+            Must be between 2 and 8 characters.<br><br></p>
+            <input type="text" id="playernameinput">
+            <button id="gotorange">NEXT</button>
+          </div>
+        </div>
       <!------------------------------------>
-      <div class="modeSelect" id="modeSelect">
-        <div class="modeSelect__choice1" id="choice1">HM</div>
-        <div class="modeSelect__choice2" id="choice2">MC</div>
-      </div>
+
       <!---------------------------------->
       <div class="rangeSelect" id="rangeSelect">
-        <p class="rangeSelect__info">Choose and pokemon number start and end</p>
+        <div class="rangeSelect__div"> 
+        <p class="rangeSelect__info">Please select a range of pokemon.<br><br>For example if you choose number 1 to number 150, you will start on Bulbasaur and end on Mewtwo.<br> (Give or take some descrepencies!) </p>
         <form class="rangeSelect__form" action="">
           <input
             class="rangeSelect__input"
@@ -59,23 +67,17 @@
         </form>
         <button id="rangeStart">START</button>
       </div>
+      </div>
       <!-- FINAL SCORE ---------------------------------->
       <div class="finalScore" id="finalScore">
-        <div class="finalScore__info">
+        <img src="./game-files/images/title/titlelogo.png" alt="" class="entername__logo">
+        <div class="finalScore__box">
           <p id="finalscore-score">1000</p>
-
-          <form action="/" method="POST" id="testform">
-            <input type="text" id="playername" name="name" />
-            <input type="text" id="scoreField" name="score" />
-          </form>
-          <button id="playersubmit">Submit Score</button>
+            <div class="leaderboard__info" id="leaderboard-scores"></div>
+            <button id="leaderboardnext">Next</button>
         </div>
       </div>
-      <!-- LEADERBOARD ---------------------------------->
-      <div class="leaderboard" id="leaderboard">
-        <div class="leaderboard__info"></div>
-        <button id="leaderboardnext">Next</button>
-      </div>
+
       <!------------------------------------>
       <input type="text" id="mobile-press" />
       <!------------------------------------>

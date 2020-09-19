@@ -13,6 +13,25 @@ app.get("/", (req, res) =>
   res.sendFile(path.join(__dirname + "/public/pokemongamev2.html"))
 );
 
+app.get("/lb", async (req, res) => {
+  try {
+    console.log(req.body);
+    const leaderboard = await ScoreModel.find().sort({ score: -1 });
+    console.log(leaderboard);
+    res.status(200).json({
+      status: "success",
+      data: {
+        leaderboard,
+      },
+    });
+  } catch (e) {
+    res.status(404).json({
+      status: "Failed",
+      message: e,
+    });
+  }
+});
+
 app.post("/", async (req, res) => {
   try {
     console.log(req.body);
@@ -27,10 +46,10 @@ app.post("/", async (req, res) => {
         newScores,
       },
     });
-  } catch (error) {
+  } catch (e) {
     res.status(404).json({
       status: "Failed",
-      message: error,
+      message: e,
     });
   }
 });

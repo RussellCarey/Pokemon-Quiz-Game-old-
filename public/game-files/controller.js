@@ -23,7 +23,6 @@ export let currentPokemonNameArray = [];
 let api;
 
 // HANGMAN VARIABLES
-
 let usedLetters = [];
 let firstRoundOver = false;
 let pokemonNameLetterCount = 0;
@@ -33,7 +32,12 @@ let roundScore = 10000;
 let livesLeft = 5;
 export let roundNumber = 1;
 
-const aform = document.getElementById("mobile-press");
+// Networking
+let playerName;
+let playerScore;
+let lbArray = [];
+let playerPosObj;
+let playerPos;
 
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -48,6 +52,16 @@ export async function loadPokemonData() {
 
   if (pokemonFinish > 806) {
     pokemonFinish = 806;
+  }
+
+  if (pokemonStart > pokemonFinish) {
+    pokemonStart = 1;
+    pokemonFinish = 150;
+  }
+
+  if (pokemonStart == null || pokemonFinish == null) {
+    pokemonStart = 1;
+    pokemonFinish = 150;
   }
 
   for (let i = pokemonStart; i < pokemonFinish; i++) {
@@ -87,7 +101,6 @@ function getPokemonNumber() {
     );
 
     pokemonData = await api.json();
-    console.log("LOADED API INFORMATION");
     setPokemonImage();
   }
   poke();
@@ -169,7 +182,6 @@ function opaqueLetters() {
 function showLetterBox() {
   // Show letter container box up
   setTimeout(() => {
-    console.log(doms.typingDoms.letterbox);
     gsap.to(doms.typingDoms.letterbox, { y: "0px", duration: 0.3 });
     //
     // HERE IS WHERE THE LETTER BOX IS SHOWN AT THE COUNTRDOWN SHOULD START FOR THE SCORE THAT IS TIMED
@@ -192,7 +204,6 @@ function addPokemonName() {
     newLetter.classList.add("letter-container__letter");
     newLetter.src = letterImage;
     doms.typingDoms.letterbox.appendChild(newLetter); // Add a new child to a parent
-    console.log("added letter to letter box");
   }
 }
 
@@ -203,14 +214,6 @@ function guessedPokemon() {
     doms.typingDoms.letterbox.innerHTML = "";
     doms.mainDoms.audio2.pause();
     globalScore += livesLeft * 1000;
-    console.log(
-      "The end of this round total score is " +
-        globalScore +
-        " plus the round time score of " +
-        roundScore +
-        " together total is " +
-        (globalScore += roundScore)
-    );
     globalScore += roundScore;
 
     livesLeft = 5;
@@ -311,7 +314,7 @@ function setUpMobileKeys() {
   //document.getElementById("focus").focus();
   // Test of the button has been pressed and it corrospons with the pokemon name
   // selected
-  aform.addEventListener("input", (e) => {
+  doms.mainDoms.mobileForm.addEventListener("input", (e) => {
     let value = document.getElementById("mobile-press").value;
     const availableKeys = [
       "a",
@@ -374,12 +377,18 @@ function setUpMobileKeys() {
   });
 }
 
+// When you run out of lives //
 function outOfLives() {
   recordScore();
+  playerName = menu.playerName;
+  playerScore = globalScore;
+  doms.mainDoms.gameScreen.style.display = "none";
+  doms.mainDoms.gameScreen.style.opacity = 0;
   doms.mainDoms.mobileForm.style.display = "none";
   doms.mainDoms.menuBG.style.transform = "translate(0)";
   doms.typingDoms.letterbox.style.transform = "translateY(500px)";
 
+  // Remove letters from the letter box..
   const letters = document.querySelectorAll(".letter-container__letter");
   const lettersLength = letters.length;
 
@@ -387,42 +396,85 @@ function outOfLives() {
     doms.typingDoms.letterbox.innerHTML = "";
   }
 
+  // Move the score screen and name entry screen into view
   doms.mainDoms.finalScore.style.transform = "translate(0px)";
-  doms.mainDoms.submitName.addEventListener("click", (e) => {
-    sendPOST();
-    doms.mainDoms.finalScore.style.transform = "translate(2000px)";
-    doms.mainDoms.leaderboard.style.transform = "translate(0px)";
-    //
-    doms.mainDoms.leaderboardNext.addEventListener("click", () => {
-      gsap.to(doms.mainDoms.leaderboard, { y: "2000px", duration: 1 });
-      gsap.to(doms.mainDoms.modeSelect, { delay: 2, y: "0px", duration: 1 });
-      newGame();
-    });
-  });
-  // Fade out
-  // Scroll down screen with score on it and a way to enter name
-  // If all is okay scroll out and show leaderboatd with their name on it
-  // ON CLICK next button go back to mode select
+
+  livesLeft = 5;
+
+  sendPOST();
 }
 
+//Send name and score to DB
 function sendPOST() {
   var xhr = new XMLHttpRequest();
   xhr.open("POST", "/", true);
   xhr.setRequestHeader("Content-Type", "application/json");
   xhr.send(
     JSON.stringify({
-      name: document.getElementById("playername").value,
+      name: playerName,
       score: globalScore,
     })
   );
+  xhr.onload = function () {
+    console.log(JSON.parse(xhr.response));
+    getLeaderboard();
+  };
+}
+
+// Get datafrom leaderboard
+function getLeaderboard() {
+  lbArray = [];
+  var xhr = new XMLHttpRequest();
+  // The true means that it is asynconouse!!
+  xhr.open("GET", "/lb", true);
+  xhr.setRequestHeader("Content-Type", "application/json");
+  xhr.send();
+  xhr.onload = function () {
+    const leaderboard = JSON.parse(xhr.response);
+
+    const l = Object.keys(leaderboard.data.leaderboard).length;
+    for (let i = 0; i < l; i++) {
+      lbArray.push(leaderboard.data.leaderboard[i]);
+    }
+
+    createLeaderboard();
+  };
+}
+
+function createLeaderboard() {
+  document.getElementById(
+    "finalscore-score"
+  ).innerHTML = `Nice one <b>${playerName}</b>, your final score was <b>${playerScore}!</b><br><br>Scroll the box below for yours, and other peoples scores!`;
+
+  //
+  const scores = document.getElementById("leaderboard-scores");
+  scores.innerHTML = " ";
+  lbArray.forEach((s, index) => {
+    const element = document.createElement("div");
+    element.id = `score${index.toString()}`;
+    element.classList.add("leaderboardplayer");
+    const no = document.createElement("p");
+    const name = document.createElement("p");
+    const score = document.createElement("p");
+    no.innerHTML = `${index + 1}`;
+    name.innerHTML = `${s.name}`;
+    score.innerHTML = `${s.score}`;
+    element.appendChild(no);
+    element.appendChild(name);
+    element.appendChild(score);
+    scores.appendChild(element);
+    //
+    document.getElementById("leaderboardnext").addEventListener("click", () => {
+      gsap.to(doms.mainDoms.finalScore, { x: "-200vw", duration: 1 });
+      gsap.to(doms.mainDoms.rangeSelect, { delay: 2, y: "0px", duration: 1 });
+    });
+  });
 }
 
 function recordScore() {
   if (livesLeft < 0) {
     livesLeft = 0;
   }
-  doms.mainDoms.finalScoreText.innerHTML = globalScore.toString();
-  document.getElementById("scoreField").value = globalScore;
 }
 
 function newGame() {

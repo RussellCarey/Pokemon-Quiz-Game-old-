@@ -8,7 +8,7 @@ const userSchema = new mongoose.Schema({
     unique: false,
     trim: true,
     // Validators
-    maxlength: [8, "A name must have less that 8 characters"],
+    maxlength: [12, "A name must have less that 8 characters"],
     minlength: [1, "A name must have more than 1 characters"],
     // Use the validator JS to use as a validator -
     validate: [validator.isAlpha, "Must be a letter only"],

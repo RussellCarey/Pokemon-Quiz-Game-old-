@@ -8,6 +8,7 @@ body {
   font-size: 62.5%; // IS THIS CORRECT?
   font-family: "Inter", sans-serif;
   overflow: hidden;
+  scroll-behavior: smooth;
 }
 
 .container {
@@ -30,5 +31,4 @@ body {
 }
 
 @import "menu";
-@import "leaderboard";
 @import "game";
