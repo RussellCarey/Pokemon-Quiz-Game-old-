@@ -2,6 +2,8 @@ import * as doms from "./elements.js";
 import * as main from "./controller.js";
 
 export let playerName = "";
+let errmsg = [];
+let start = true;
 
 // doms.mainDoms.audio.src = "./game-files/sound/titlemusic.wav";
 // doms.mainDoms.audio.play();
@@ -85,7 +87,6 @@ document.getElementById("rangeStart").addEventListener("click", () => {
 
 function checkName() {
   console.log("clicked");
-  let errmsg = [];
   const pn = document.getElementById("playernameinput").value.trim();
   console.log(pn);
 
@@ -94,22 +95,64 @@ function checkName() {
     errmsg.push("Name must be shorter than 8 characters.");
     doms.mainDoms.audio.src = "./game-files/sound/wrong.wav";
     doms.mainDoms.audio.play();
+    document.getElementById("nameerror").innerText = errmsg[0];
     // Check if name fiel is empty
   } else if (pn == "") {
     errmsg.push("Name field is empty, please enter a name.");
     doms.mainDoms.audio.src = "./game-files/sound/wrong.wav";
     doms.mainDoms.audio.play();
+    document.getElementById("nameerror").innerText = errmsg[0];
   } else if (pn.length < 2) {
     errmsg.push("Name needs to be longer than 2 characters.");
     doms.mainDoms.audio.src = "./game-files/sound/wrong.wav";
     doms.mainDoms.audio.play();
+    document.getElementById("nameerror").innerText = errmsg[0];
   } else {
-    playerName = pn;
-    console.log(pn + " is okay");
-    gsap.to(document.getElementById("enternamescreen"), {
-      y: "-200vw",
-      duration: 1,
-    });
-    gsap.to(document.getElementById("rangeSelect"), { y: "0", duration: 1 });
+    checkDatabase(pn);
+    //
+    setTimeout(() => {
+      if (start === true) {
+        document.getElementById("nameerror").innerText = " ";
+        playerName = pn;
+        console.log(pn + " is okay");
+        gsap.to(document.getElementById("enternamescreen"), {
+          y: "-200vw",
+          duration: 1,
+        });
+        gsap.to(document.getElementById("rangeSelect"), {
+          y: "0",
+          duration: 1,
+        });
+      }
+    }, 3000);
   }
+}
+
+function checkDatabase(pn) {
+  start = true;
+  const lbArray = [];
+  var xhr = new XMLHttpRequest();
+  // The true means that it is asynconouse!!
+  xhr.open("GET", "/lb", true);
+  xhr.setRequestHeader("Content-Type", "application/json");
+  xhr.send();
+  xhr.onload = function () {
+    const leaderboard = JSON.parse(xhr.response);
+
+    const l = Object.keys(leaderboard.data.leaderboard).length;
+    //
+    for (let i = 0; i < l; i++) {
+      lbArray.push(leaderboard.data.leaderboard[i]);
+    }
+    //
+    for (let i = 0; i < lbArray.length; i++) {
+      if (lbArray[i].name == pn) {
+        doms.mainDoms.audio.src = "./game-files/sound/wrong.wav";
+        doms.mainDoms.audio.play();
+        document.getElementById("nameerror").innerText =
+          "Leaderboard contains this name, please choose another.";
+        start = false;
+      }
+    }
+  };
 }
