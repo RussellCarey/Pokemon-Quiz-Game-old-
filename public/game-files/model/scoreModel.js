@@ -5,13 +5,7 @@ const userSchema = new mongoose.Schema({
   name: {
     type: String,
     required: [true, "A tour must have a name"],
-    unique: false,
     trim: true,
-    // Validators
-    maxlength: [12, "A name must have less that 8 characters"],
-    minlength: [1, "A name must have more than 1 characters"],
-    // Use the validator JS to use as a validator -
-    validate: [validator.isAlpha, "Must be a letter only"],
   },
   score: {
     type: Number,
