@@ -93,7 +93,7 @@ export function startNewRound() {
 }
 
 // Assign the JSON to the variable
-function getPokemonNumber() {
+async function getPokemonNumber() {
   doms.mainDoms.video.pause();
   async function poke() {
     api = await fetch(
